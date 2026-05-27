@@ -1,0 +1,53 @@
+<template>
+    <lightning-card title="Primary Quote Lines" icon-name="standard:quotes">
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Loading quote lines" size="small"></lightning-spinner>
+        </template>
+
+        <div class="content">
+            <template lwc:if={errorMessage}>
+                <div class="slds-text-color_error">{errorMessage}</div>
+            </template>
+
+            <template lwc:elseif={hasQuote}>
+                <div class="summary">
+                    <div>
+                        <div class="label">Quote</div>
+                        <div class="value">{quoteName}</div>
+                    </div>
+                    <div>
+                        <div class="label">Status</div>
+                        <div class="value">{quoteStatus}</div>
+                    </div>
+                    <div>
+                        <div class="label">Total</div>
+                        <div class="value">
+                            <lightning-formatted-number
+                                value={quoteTotal}
+                                format-style="currency"
+                                currency-code="USD"
+                            ></lightning-formatted-number>
+                        </div>
+                    </div>
+                </div>
+
+                <template lwc:if={hasLines}>
+                    <lightning-datatable
+                        key-field="id"
+                        data={lines}
+                        columns={columns}
+                        hide-checkbox-column
+                    ></lightning-datatable>
+                </template>
+
+                <template lwc:else>
+                    <div class="empty-state">{emptyMessage}</div>
+                </template>
+            </template>
+
+            <template lwc:else>
+                <div class="empty-state">{emptyMessage}</div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
